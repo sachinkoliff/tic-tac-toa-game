@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tic tak toa</title>
+   <link rel="stylesheet" href="main1.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Tic Tac Toa</h1>
+      <h1 id ="massage"></h1>
+      <div class="playerInformation">
+        <div class="player1">
+          <h2>Player 1</h2>
+          <strong id="scoreplayer1">Score : 0</strong>
+        </div>
+        <div class="line"></div>
+        <div class="player2">
+          <h2 >Player 2</h2>
+          <strong id="scoreplayer2">Score : 0</strong>
+        </div>
+      </div>
+      <div class="board">
+        <div class="box" data-index="0"></div>
+        <div class="box" data-index="1"></div>
+        <div class="box" data-index="2"></div>
+        <div class="box" data-index="3"></div>
+        <div class="box" data-index="4"></div>
+        <div class="box" data-index="5"></div>
+        <div class="box" data-index="6"></div>
+        <div class="box" data-index="7"></div>
+        <div class="box" data-index="8"></div>
+      </div>
+    </div>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", bindevent);
+      let value = "O";
+      function bindevent() {
+        document
+          .querySelectorAll(".box")
+          .forEach((box) => box.addEventListener("click",playgame ));
+      }
+
+      const player1="O";
+      const player2="X";
+      let Scoreplayer1 = 0;
+      let Scoreplayer2 = 0;
+
+      let count = 0;
+       
+      let board = ["","","","","","","","","",]
+
+      const winningcondition=[
+        [0,1,2],
+        [3,4,5],
+        [6,7,8],
+        [0,4,8],
+        [2,4,6],
+        [0,3,6],
+        [1,4,7],
+        [2,5,8],
+      ]
+
+      function playgame() {
+        this.innerText=value
+        const index=this.getAttribute("data-index")
+      if (checkMove(index)) {
+        board[index]=value;
+        count++;
+        winner();
+        console.log("value",value);
+        if (value=="O") {
+          value="X"
+        }else{
+          value="O"
+        }}
+        else{
+           alert("Worng Move");
+           restartGame()
+        }
+
+        
+       
+      }
+      
+      function checkMove(index) {
+        console.log(board[index]);
+        if (board[index]=="X"|| board[index]=="O") {
+          return false;
+        }
+        return true;
+      }
+
+      function winner() {
+        if (count == board.length) {
+          restartGame();
+        }
+        for (let i = 0; i < winningcondition.length; i++) {
+          const condition =winningcondition[i];
+          if (
+            board[condition[0]]==value&&
+            board[condition[1]]==value&&
+            board[condition[2]]==value
+          ) {
+            console.log("winner",value);
+            winnerPlayerscore();
+            restartGame();
+          }
+        }
+      }
+
+      function restartGame() {
+        board=board.map((ele)=>(ele= ""));
+        document
+        .querySelectorAll(".box")
+        .forEach((box)=>(box.innerText=""));
+      }
+       
+      function winnerPlayerscore() {
+         count=0
+        if (player1 == value) {
+          Scoreplayer1= Scoreplayer1 + 1;
+          document.getElementById(
+            "scoreplayer1"
+            
+          ) .innerText = `score : ${Scoreplayer1}`;
+        }
+        if (player2==value) {
+          Scoreplayer2 = Scoreplayer2 + 1;
+          document.getElementById(
+            "scoreplayer2"
+          ).innerText = `score : ${Scoreplayer2}`;
+        }
+        document.getElementById("massage").innerText =`winnwe :${value}`;
+      }
+      
+      
+    </script>
+  </body>
+</html>
